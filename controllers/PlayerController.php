@@ -3,9 +3,45 @@
 namespace app\controllers;
 use app\models\Player;
 use yii;
+use app\models\User;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\components\AccessRule;
 
 class PlayerController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['create','update','delete'],
+                'rules'=>[
+                    [
+                        'actions'=>['create','update'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+
+
+        ];
+    }
     public function actionCreate()
     {
         $model = new Player;
@@ -19,14 +55,7 @@ class PlayerController extends \yii\web\Controller
 
     public function actionDelete($id)
     {
-        $model = Player::findOne($id);
-
-        Yii::$app->db->createCommand()
-        ->delete('player','id=:id',[':id'=>$id])
-        ->execute();
-
-        $model->delete();
-        
+        Player::findOne($id)->delete();
         return $this->redirect(['/player/index']);
     }
 
@@ -36,9 +65,15 @@ class PlayerController extends \yii\web\Controller
         return $this->render('index',['players'=>$players]);
     }
 
-    public function actionUpdate()
+    public function actionUpdate($id)
     {
-        return $this->render('update');
+        $model = Player::findOne($id);
+
+            if($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->redirect(['/player/view', 'id'=>$id]);
+        }
+
+        return $this->render('update', compact('model'));
     }
 
     public function actionView($id)

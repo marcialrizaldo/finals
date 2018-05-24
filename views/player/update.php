@@ -1,9 +1,26 @@
 <?php
-/* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 ?>
-<h1>player/update</h1>
+<h1>Update Player</h1>
 
-<p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
-</p>
+<div class="row">
+	<div class="col-md-6">
+
+		<?php $form = ActiveForm::begin() ?>
+
+			<?= $form->field($model, 'fullname')->textInput() ?>
+
+			<?= $form->field($model, 'IGN')->textInput() ?>
+
+			<?= $form->field($model, 'country')->textInput() ?>
+			
+			<div class="pull-right">
+			<div class="form-group">
+    	<?= Html::submitButton("Update Players", ['class'=>'btn btn-primary']); ?>
+			</div>
+
+
+			<?php ActiveForm::end(); ?>
+	</div>
+</div>

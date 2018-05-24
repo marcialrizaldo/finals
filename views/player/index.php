@@ -9,7 +9,7 @@ use yii\helpers\Html;
 			player/create'],['class'=>'btn btn-primary btn-sn']);
 		?>
 	</span>
-	Products
+	Players
 </h1>
 
 <table class="table table-borderd table-stripped">

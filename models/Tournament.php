@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use app\models\User;
 use Yii;
 
 /**
@@ -57,5 +57,9 @@ class Tournament extends \yii\db\ActiveRecord
     public function getTeam()
     {
         return $this->hasOne(Team::className(), ['id' => 'team_id']);
+    }
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

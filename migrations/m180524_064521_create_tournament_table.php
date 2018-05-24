@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `tournament`.
  */
-class m180523_023312_create_tournament_table extends Migration
+class m180524_064521_create_tournament_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -34,6 +34,8 @@ class m180523_023312_create_tournament_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-tournament-team', 'tournament');
+        $this->dropIndex('idx-tournament-team_id', 'tournament');
         $this->dropTable('tournament');
     }
 }

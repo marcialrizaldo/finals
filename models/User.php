@@ -1,9 +1,18 @@
 <?php
 
 namespace app\models;
+use app\models\Player;
+use app\models\Team;
+use app\models\Tournament;
 
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
+    const STATUS_DELETED = 0;
+    const STATUS_ACTIVE = 10;
+    const ROLE_ADMIN = 100;
+    const ROLE_EDITOR = 200;
+    const ROLE_AUTHOR = 300;
+    
     public $id;
     public $username;
     public $password;
@@ -16,7 +25,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'username' => 'admin',
             'password' => 'admin',
             'authKey' => 'test100key',
-            'accessToken' => '100-token',
+            'accessToken' => '100',
         ],
         '101' => [
             'id' => '101',
@@ -100,5 +109,17 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         return $this->password === $password;
+    }
+    public function getPlayer()
+    {
+        return $this->hasMany(Player::className(), ['user_id'=>'id']);
+    }
+    public function getTeam()
+    {
+        return $this->hasMany(Team::className(), ['user_id'=>'id']);
+    }
+    public function getTournament()
+    {
+        return $this->hasMany(Tournament::className(), ['user_id'=>'id']);
     }
 }
