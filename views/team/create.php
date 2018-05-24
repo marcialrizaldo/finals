@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use app\models\Team;
+use app\models\Player;
 ?>
 <h1>Team Create</h1>
 
@@ -18,7 +18,7 @@ use app\models\Team;
 			<?= $form->field($model, 'team_name')->textInput() ?>
 
 			<?= $form->field($model,'player_id')->dropDownList(ArrayHelper::map(
-				Team::find()->asArray()->all(), 'id','id'))?>
+				Player::find()->asArray()->all(), 'id','fullname'))?>
 
 			<?= $form->field($model, 'team_captain')->textInput() ?>
 			
